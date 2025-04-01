@@ -67,11 +67,9 @@ export default class EventService {
   }
 
   public async deleteEvent(id: string): Promise<IEvent> {
-    const event = await db.event.delete({
+    return await db.event.delete({
       where: { id },
     });
-
-    return event;
   }
 }
 
