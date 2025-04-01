@@ -9,5 +9,5 @@ export interface IBookingCreate {
   paymentDetails: {}
 }
 
-export type IBooking = Omit<Prisma.$BookingPayload['scalars'], ''>;
+export type IBooking = Prisma.$BookingPayload['scalars'];
 
