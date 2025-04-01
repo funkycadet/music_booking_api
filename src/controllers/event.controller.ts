@@ -69,7 +69,7 @@ export class EventController {
   ): Promise<Response> => {
     try {
       await this.service.deleteEvent(req.params.id);
-      return res.status(STATUS_CODES.NO_CONTENT);
+      return res.status(STATUS_CODES.NO_CONTENT).end();
     } catch (err) {
       next(err);
     }
