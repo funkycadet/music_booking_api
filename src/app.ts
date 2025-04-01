@@ -4,7 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import { authRouter, userRouter, healthRouter, eventRouter } from './routes';
+import { authRouter, userRouter, healthRouter, eventRouter, bookingRouter } from './routes';
 
 // import { errHandler } from "./exceptions";
 
@@ -30,6 +30,7 @@ export default async (app: Application): Promise<Application> => {
   app.use('/health', healthRouter);
 
   app.use('/event', eventRouter);
+  app.use('/booking', bookingRouter);
 
   // Catch and handle all 404 errors
   app.all('*', function(res: Response): Response {
