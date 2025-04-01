@@ -18,6 +18,8 @@ import {
   IEvent,
 } from './event.interface';
 
+import { IBookingCreate, IBooking } from './booking.interface';
+
 export {
   Pageable,
   Page,
@@ -31,4 +33,7 @@ export {
   IEventCreate,
   IEventUpdate,
   IEvent,
+  IBookingCreate,
+  IBooking,
 };
+

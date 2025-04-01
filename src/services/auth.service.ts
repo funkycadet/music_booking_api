@@ -84,6 +84,26 @@ class AuthService {
     return user;
   }
 
+  async artistSignup(dto: IUserSignup) {
+    const hashedPassword = await argon.hash(dto.password);
+
+    const existingUser = await this.user.getUser({
+      emailAddress: dto.emailAddress,
+    });
+    if (existingUser) throw new ConflictError(`User already exists!`);
+
+    const user = await this.user.createUser({
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      emailAddress: dto.emailAddress,
+      password: hashedPassword,
+      gender: dto.gender,
+      role: 'artist',
+    });
+
+    return user;
+  }
+
   public async login(dto: IUserLogin): Promise<{
     data: IUser;
     accessToken: string;
