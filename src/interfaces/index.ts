@@ -4,12 +4,19 @@ import Pageable, {
   ProcessedPageable,
   PageableOrderBy,
 } from './pageable.interface';
+
 import {
   IUserSignup,
   IUserLogin,
   IUser,
   IUpdateUserPassword,
 } from './user.interface';
+
+import {
+  IEventCreate,
+  IEventUpdate,
+  IEvent,
+} from './event.interface';
 
 export {
   Pageable,
@@ -21,4 +28,7 @@ export {
   IUserSignup,
   IUserLogin,
   IUpdateUserPassword,
+  IEventCreate,
+  IEventUpdate,
+  IEvent,
 };
