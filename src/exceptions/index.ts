@@ -6,6 +6,7 @@ import {
   UnauthorizedError,
   ConflictError,
   ForbiddenError,
+  STATUS_CODES,
 } from './Errors';
 import errHandler from './ErrorException';
 
@@ -17,5 +18,6 @@ export {
   UnauthorizedError,
   ConflictError,
   ForbiddenError,
+  STATUS_CODES,
   errHandler,
 };
