@@ -15,5 +15,5 @@ export interface IEventUpdate {
   eventDate?: Date;
 }
 
-export type IEvent = Omit<Prisma.$EventPayload['scalars'], ''>;
+export type IEvent = Prisma.$EventPayload['scalars'];
 
