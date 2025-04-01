@@ -3,7 +3,7 @@ import { BookingService } from "../services";
 import { ProtectedRequest } from "../types";
 import { STATUS_CODES } from "../exceptions";
 
-export class BookingController {
+export default class BookingController {
   service: BookingService;
 
   constructor() {
