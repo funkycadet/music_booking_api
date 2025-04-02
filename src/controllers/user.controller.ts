@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import UserService from '../services/user.service';
-import { BadRequestError, UnauthorizedError } from '../exceptions';
+import { BadRequestError, STATUS_CODES, UnauthorizedError } from '../exceptions';
 import { ProtectedRequest } from '../types';
 
 class UserController {
@@ -16,14 +16,9 @@ class UserController {
     next: NextFunction,
   ): Promise<Response> => {
     try {
-      const { limit, skip } = req.query;
-      const limitValue = limit ? Number(limit) : 20;
-      const offsetValue = skip ? Number(skip) : 0;
-
-      const users = await this.service.getAllUsers(offsetValue, limitValue);
-
-      return res.status(200).json({ status: 'success', data: users });
-    } catch (err: any) {
+      const users = await this.service.getAllUsers(req.query);
+      return res.status(STATUS_CODES.OK).json({ status: 'success', data: users });
+    } catch (err) {
       next(err);
     }
   };
@@ -34,14 +29,9 @@ class UserController {
     next: NextFunction,
   ): Promise<Response> => {
     try {
-      const userId = req.user?.id;
-      if (!userId)
-        throw new UnauthorizedError(`Unauthorized! Please log in to continue`);
-
-      // const id = req.params.id;
-      const foundUser = await this.service.getUserById(userId);
-      return res.status(200).json({ status: 'success', data: foundUser });
-    } catch (err: any) {
+      const foundUser = await this.service.getUserById(req.user.id);
+      return res.status(STATUS_CODES.OK).json({ status: 'success', data: foundUser });
+    } catch (err) {
       next(err);
     }
   };
@@ -50,7 +40,7 @@ class UserController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response | void> => {
+  ): Promise<Response> => {
     try {
       const id = req.params.id;
       if (!id) throw new BadRequestError(`No id provided`);
@@ -58,7 +48,7 @@ class UserController {
       const user = await this.service.getUserById(id);
 
       return res.status(200).json({ status: 'success', data: user });
-    } catch (err: any) {
+    } catch (err) {
       next(err);
     }
   };
@@ -69,51 +59,61 @@ class UserController {
     next: NextFunction,
   ): Promise<Response | void> => {
     try {
-      const queryParams = req.query;
-      if (!queryParams || Object.keys(queryParams).length === 0) {
-        throw new BadRequestError('No search parameters provided');
-      }
-
-      const validParams = ['email_address', 'role']; // Define valid keys here
-      const searchParams = Object.keys(queryParams)
-        .filter((key) => validParams.includes(key))
-        .reduce((obj, key) => {
-          obj[key] = queryParams[key];
-          return obj;
-        }, {});
-
-      if (Object.keys(searchParams).length === 0) {
-        throw new BadRequestError('No valid search parameters provided');
-      }
-
-      // if (!email_address)
-      //   throw new BadRequestError(`No email address provided`);
-
-      const user = await this.service.getUser({ searchParams });
-      // const foundUser = stripUser(user);
-
-      return res.status(200).json({ status: 'success', data: user });
-    } catch (err: any) {
+      const user = await this.service.getUser(req.query);
+      return res.status(STATUS_CODES.OK).json({ status: 'success', data: user });
+    } catch (err) {
       next(err);
     }
   };
 
   updateUser = async (
-    req: Request,
+    req: ProtectedRequest,
     res: Response,
     next: NextFunction,
   ): Promise<Response> => {
     try {
-      const id = req.params.id;
-      if (!id) throw new BadRequestError(`No id provided`);
+      const user = await this.service.updateUser(req.user.id, req.body);
+      return res.status(STATUS_CODES.OK).json({ status: 'success', data: user });
+    } catch (err) {
+      next(err);
+    }
+  };
 
-      const data = req.body;
-      if (!data) throw new BadRequestError(`No data provided`);
-
-      const user = await this.service.updateUser(id, data);
-
+  deleteUser = async (
+    req: ProtectedRequest,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response> => {
+    try {
+      const user = await this.service.deleteUser(req.params.id);
       return res.status(200).json({ status: 'success', data: user });
-    } catch (err: any) {
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  addProfile = async (
+    req: ProtectedRequest,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response> => {
+    try {
+      const user = await this.service.addProfile(req.user.id, req.body);
+      return res.status(STATUS_CODES.CREATED).json({ status: 'success', data: user });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  updateProfile = async (
+    req: ProtectedRequest,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response> => {
+    try {
+      const user = await this.service.updateProfile(req.user.id, req.body);
+      return res.status(STATUS_CODES.OK).json({ status: 'success', data: user });
+    } catch (err) {
       next(err);
     }
   };
