@@ -1,7 +1,7 @@
 import { AuthController } from '../controllers';
 import { Router } from 'express';
 import { validateReqBody } from '../middlewares';
-import { loginSchema, signupSchema } from '../validations';
+import { artistSignupSchema, loginSchema, signupSchema } from '../validations';
 
 const authController = new AuthController();
 const authRouter = Router();
@@ -18,7 +18,7 @@ authRouter.post(
 );
 authRouter.post(
   '/signup/artist',
-  validateReqBody(signupSchema),
+  validateReqBody(artistSignupSchema),
   authController.artistSignup,
 );
 
