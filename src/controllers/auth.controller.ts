@@ -35,6 +35,20 @@ class AuthController {
     }
   };
 
+  artistSignup = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response> => {
+    try {
+      const user = await this.service.artistSignup({ ...req.body });
+
+      return res.status(201).json({ status: 'success', data: user });
+    } catch (err: any) {
+      next(err);
+    }
+  }
+
   login = async (
     req: Request,
     res: Response,
