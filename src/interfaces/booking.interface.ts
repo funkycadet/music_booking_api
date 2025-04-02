@@ -6,7 +6,7 @@ export interface IBookingCreate {
   // ticketType: string;
   // quantity: number;
   bookingDate: Date;
-  paymentDetails: {}
+  paymentDetails: Prisma.JsonValue;
 }
 
 export type IBooking = Prisma.$BookingPayload['scalars'];

@@ -7,6 +7,7 @@ import Pageable, {
 
 import {
   IUserSignup,
+  IArtistSignup,
   IUserLogin,
   IUser,
   IUpdateUserPassword,
@@ -28,6 +29,7 @@ export {
   PageableOrderBy,
   IUser,
   IUserSignup,
+  IArtistSignup,
   IUserLogin,
   IUpdateUserPassword,
   IEventCreate,

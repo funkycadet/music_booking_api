@@ -23,6 +23,16 @@ export interface IUserSignup {
   role?: Role;
 }
 
+export interface IArtistSignup extends IUserSignup {
+  profile: {
+    artistName?: string;
+    bio?: string;
+    profilePicture?: string;
+    genres?: string[];
+    socialLinks?: Prisma.JsonValue;
+  };
+}
+
 export interface IUserLogin {
   emailAddress: string;
   password: string;
