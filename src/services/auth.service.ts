@@ -7,7 +7,7 @@ import {
 } from '../config';
 import { db } from '../database';
 import UserService from './user.service';
-import { IUser, IUserLogin, IUserSignup } from '../interfaces';
+import { IUser, IUserLogin, IUserSignup, IArtistSignup } from '../interfaces';
 import { signJWT, verifyJWT } from '../utils';
 import {
   UnauthorizedError,
@@ -84,7 +84,7 @@ class AuthService {
     return user;
   }
 
-  async artistSignup(dto: IUserSignup) {
+  async artistSignup(dto: IArtistSignup) {
     const hashedPassword = await argon.hash(dto.password);
 
     const existingUser = await this.user.getUser({
@@ -92,13 +92,36 @@ class AuthService {
     });
     if (existingUser) throw new ConflictError(`User already exists!`);
 
-    const user = await this.user.createUser({
-      firstName: dto.firstName,
-      lastName: dto.lastName,
-      emailAddress: dto.emailAddress,
-      password: hashedPassword,
-      gender: dto.gender,
-      role: 'artist',
+    const user = await db.$transaction(async (tx) => {
+      const newUser = await tx.user.create({
+        data: {
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+          emailAddress: dto.emailAddress,
+          password: hashedPassword,
+          gender: dto.gender,
+          role: 'artist',
+        },
+      });
+
+      if (dto.profile) {
+        await tx.profile.create({
+          data: {
+            userId: newUser.id,
+            artistName: dto.profile.artistName,
+            bio: dto.profile.bio,
+            profilePicture: dto.profile.profilePicture,
+            genres: dto.profile.genres,
+            socialLinks: dto.profile.socialLinks,
+          },
+        });
+      }
+
+      const createdUser = await tx.user.findUnique({
+        where: { id: newUser.id },
+        include: { profile: true },
+      });
+      return createdUser;
     });
 
     return user;
