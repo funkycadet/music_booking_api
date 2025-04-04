@@ -1,9 +1,9 @@
 #!/bin/sh
 echo "Waiting for database..."
 
-while ! nc -z db 5432; do
-  sleep 1
-done
+# while ! nc -z db 5432; do
+#   sleep 1
+# done
 
 echo "Database started"
 
@@ -13,4 +13,6 @@ yarn migration:generate
 
 yarn prisma:seed
 
-yarn build && yarn start
+yarn build
+
+yarn start
