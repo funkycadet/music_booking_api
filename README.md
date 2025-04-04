@@ -1,6 +1,6 @@
-# Express-TypeScript-Boilerplate
+# Music Booking API
 
-This is a backend boilerplate code for ExpressJS in TypeScript.
+This is a backend api for Music Booking. This was done in completion for the Backend Developer task at Fobework.
 
 ## Features
 
@@ -33,7 +33,7 @@ Ensure you have the following installed on your local machine:
 1. Clone the repository
 
 ```bash
-git clone git@github.com:funkycadet/express-typescript-boilerplate.git
+git clone git@github.com:funkycadet/music_booking_api.git
 ```
 
 2. Install dependencies
@@ -92,4 +92,5 @@ where service name is the name of the service you want to check the logs for.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## API Documentation
-For API documentation, visit this [link](https://documenter.getpostman.com/view/23964763/2sA3rxrtdh)
+For API documentation, visit this [link](https://documenter.getpostman.com/view/40606983/2sB2cU9MwR)
+
