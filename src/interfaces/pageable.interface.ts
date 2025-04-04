@@ -4,6 +4,7 @@ type Pageable<T = Record<string, any>> = Partial<{
   orderBy: string[];
 }> &
   T;
+
 type Page<T = Record<string, any>> = Partial<{
   pageNumber: number;
   pageSize: number;
@@ -13,8 +14,7 @@ type Page<T = Record<string, any>> = Partial<{
   data: T[];
   firstPage: boolean;
   lastPage: boolean;
-}> &
-  T;
+}>
 
 interface PageableOrderBy<T = string> {
   field: keyof T;

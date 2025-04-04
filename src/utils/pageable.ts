@@ -39,23 +39,41 @@ const processPageable = <T>(pageable: Pageable) => {
   } as ProcessedPageable<T>;
 };
 
-const responseToPageable = <T>(
-  query: ProcessedPageable<T>,
-  count?: number,
-  data?: T[],
-) => {
+const responseToPageable = <DataType>(
+  query: ProcessedPageable<any>,
+  count: number, // Make count required to avoid undefined issues
+  data: DataType[]
+): Page<DataType> => {
   const actualTotalPage = Math.ceil(count / query.limit);
   return {
     pageNumber: query.page,
-    pageSize: (data as []).length,
+    pageSize: data.length,
     totalItems: count,
     totalPages: count < query.limit ? 1 : actualTotalPage,
     hasNext: query.page < actualTotalPage,
     firstPage: query.page === 1,
     lastPage: actualTotalPage === query.page,
     data: data,
-  } as Page<any>;
+  };
 };
+
+// const responseToPageable = <T>(
+//   query: ProcessedPageable<T>,
+//   count?: number,
+//   data?: T[],
+// ) => {
+//   const actualTotalPage = Math.ceil(count / query.limit);
+//   return {
+//     pageNumber: query.page,
+//     pageSize: (data as []).length,
+//     totalItems: count,
+//     totalPages: count < query.limit ? 1 : actualTotalPage,
+//     hasNext: query.page < actualTotalPage,
+//     firstPage: query.page === 1,
+//     lastPage: actualTotalPage === query.page,
+//     data: data,
+//   } as Page<any>;
+// };
 
 const pageableHandler = {
   process: processPageable,
