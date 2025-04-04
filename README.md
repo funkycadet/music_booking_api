@@ -87,6 +87,12 @@ docker compose logs -f {service-name}
 ```
 where service name is the name of the service you want to check the logs for.
 
+NOTE: After installing packages, run
+```bash
+cp .env.example .env
+```
+to create a `.env` file. You can then update the environment variables in the `.env` file as needed.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
