@@ -10,18 +10,18 @@ export default class BookingController {
     this.service = new BookingService();
   }
 
-  // getAll = async (
-  //   req: ProtectedRequest,
-  //   res: Response,
-  //   next: NextFunction,
-  // ): Promise<Response> => {
-  //   try {
-  //     const data = await this.service.getAllBookings(req.query);
-  //     return res.status(STATUS_CODES.OK).json({ status: "success", data });
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // };
+  getAll = async (
+    req: ProtectedRequest,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response> => {
+    try {
+      const data = await this.service.getAllBookings(req.query);
+      return res.status(STATUS_CODES.OK).json({ status: "success", data });
+    } catch (err) {
+      next(err);
+    }
+  };
 
   getBookingById = async (
     req: ProtectedRequest,
