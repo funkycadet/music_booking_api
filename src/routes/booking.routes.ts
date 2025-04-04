@@ -8,7 +8,7 @@ const bookingController = new BookingController();
 const bookingRouter = Router();
 bookingRouter.use(validateJWT());
 
-// bookingRouter.get("/", bookingController.getAll);
+bookingRouter.get("/", bookingController.getAll);
 bookingRouter.post("/", checkRole("user", "admin"), validateReqBody(createBookingSchema), bookingController.createBooking);
 bookingRouter.get("/:id", bookingController.getBookingById);
 bookingRouter.patch("/:id", checkRole("user", "admin"), validateReqBody(updateBookingSchema), bookingController.updateBooking);
